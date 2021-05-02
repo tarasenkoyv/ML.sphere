@@ -14287,7 +14287,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[140]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">randint</span> <span class="k">as</span> <span class="n">randint</span>
@@ -14331,7 +14331,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[141]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">EPSILON</span> <span class="o">=</span> <span class="mf">1e-15</span>
@@ -14353,11 +14353,11 @@ a.anchor-link {
         <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">criterion</span>
 
         <span class="k">if</span> <span class="n">criterion</span>  <span class="o">==</span> <span class="s2">&quot;entropy&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_criterion_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entropy</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_impurity_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entropy</span>
         <span class="k">elif</span> <span class="n">criterion</span>  <span class="o">==</span> <span class="s2">&quot;gini&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_criterion_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gini</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_impurity_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gini</span>
         <span class="k">elif</span> <span class="n">criterion</span>  <span class="o">==</span> <span class="s2">&quot;misclf&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_criterion_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_misclf</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_impurity_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_misclf</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;criterion &#39;</span><span class="si">{</span><span class="n">criterion</span><span class="si">}</span><span class="s2">&#39; is not recognized&quot;</span><span class="p">)</span>
             
@@ -14393,16 +14393,16 @@ a.anchor-link {
             <span class="n">y_r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">y_s</span><span class="p">[</span><span class="n">splits</span><span class="p">[</span><span class="n">i</span><span class="p">]:],</span> <span class="n">minlength</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_class</span><span class="p">)</span>
         <span class="n">cnt_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_l</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">cnt_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_r</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">imps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__impurity_func</span><span class="p">(</span><span class="n">y_l</span><span class="p">,</span> <span class="n">y_r</span><span class="p">,</span> <span class="n">cnt_l</span><span class="p">,</span> <span class="n">cnt_r</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
-        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">imps</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">imps</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">ths</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="n">gains</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__gain_func</span><span class="p">(</span><span class="n">y_l</span><span class="p">,</span> <span class="n">y_r</span><span class="p">,</span> <span class="n">cnt_l</span><span class="p">,</span> <span class="n">cnt_r</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">gains</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">gains</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">ths</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
     
     <span class="k">def</span> <span class="nf">__find_threshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">__find_threshold_by_feature_id</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="n">feature_id</span><span class="p">],</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">feature_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])])</span>
         <span class="n">best_feature_id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">res</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
         <span class="n">best_th</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">best_feature_id</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">max_imp</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">best_feature_id</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">best_feature_id</span><span class="p">,</span> <span class="n">best_th</span><span class="p">,</span> <span class="n">max_imp</span><span class="p">)</span>
+        <span class="n">max_gain</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">best_feature_id</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">best_feature_id</span><span class="p">,</span> <span class="n">best_th</span><span class="p">,</span> <span class="n">max_gain</span><span class="p">)</span>
     
 
     <span class="k">def</span> <span class="nf">__build_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
@@ -14424,8 +14424,8 @@ a.anchor-link {
             <span class="n">y</span> <span class="o">=</span> <span class="n">stack_record</span><span class="o">.</span><span class="n">y</span>
 
             <span class="k">if</span> <span class="n">depth</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_depth</span> <span class="ow">and</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_samples_split</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">best_feature_id</span><span class="p">,</span> <span class="n">best_th</span><span class="p">,</span> <span class="n">max_imp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__find_threshold</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">[</span><span class="n">best_feature_id</span><span class="p">]</span> <span class="o">+=</span> <span class="n">max_imp</span>
+                <span class="n">best_feature_id</span><span class="p">,</span> <span class="n">best_th</span><span class="p">,</span> <span class="n">max_gain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__find_threshold</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">[</span><span class="n">best_feature_id</span><span class="p">]</span> <span class="o">+=</span> <span class="n">max_gain</span>
                 <span class="n">x_left</span><span class="p">,</span> <span class="n">x_right</span><span class="p">,</span> <span class="n">y_left</span><span class="p">,</span> <span class="n">y_right</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__div_samples</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">best_feature_id</span><span class="p">,</span> <span class="n">best_th</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">x_left</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x_right</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">[</span><span class="n">node_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LEAF_TYPE</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="o">/</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -14506,7 +14506,7 @@ a.anchor-link {
         <span class="c1"># Ваш код здесь</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_importances_</span>
     
-    <span class="k">def</span> <span class="nf">__impurity_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_l</span><span class="p">,</span> <span class="n">y_r</span><span class="p">,</span> <span class="n">cnt_l</span><span class="p">,</span> <span class="n">cnt_r</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__gain_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_l</span><span class="p">,</span> <span class="n">y_r</span><span class="p">,</span> <span class="n">cnt_l</span><span class="p">,</span> <span class="n">cnt_r</span><span class="p">):</span>
         <span class="n">mask_gr_EPSILON</span> <span class="o">=</span> <span class="p">(</span><span class="n">cnt_l</span> <span class="o">&gt;</span> <span class="n">EPSILON</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">cnt_r</span> <span class="o">&gt;</span> <span class="n">EPSILON</span><span class="p">)</span>
         <span class="n">mask_not_gr_EPSILON</span> <span class="o">=</span> <span class="o">~</span><span class="n">mask_gr_EPSILON</span>
         <span class="n">cnt_l</span> <span class="o">=</span> <span class="n">cnt_l</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -14517,18 +14517,18 @@ a.anchor-link {
         <span class="n">f</span> <span class="o">=</span> <span class="n">y</span> <span class="o">/</span> <span class="n">cnt</span>
         <span class="n">f_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="n">f_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-        <span class="n">imps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">cnt</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">gains</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">cnt</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="n">f_l</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">y_l</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:]</span> <span class="o">/</span> <span class="n">cnt_l</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:]</span>
         <span class="n">f_r</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">y_r</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:]</span> <span class="o">/</span> <span class="n">cnt_r</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:]</span>
 
-        <span class="n">imps</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_criterion_func</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:])</span> <span class="o">-</span> \
-           <span class="p">(</span><span class="n">cnt_l</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:]</span> <span class="o">/</span> <span class="n">cnt</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_criterion_func</span><span class="p">(</span><span class="n">f_l</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:])</span> <span class="o">-</span> \
-           <span class="p">(</span><span class="n">cnt_r</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:]</span> <span class="o">/</span> <span class="n">cnt</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_criterion_func</span><span class="p">(</span><span class="n">f_r</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:])</span>
-        <span class="n">imps</span><span class="p">[</span><span class="n">mask_not_gr_EPSILON</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+        <span class="n">gains</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_impurity_func</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:])</span> <span class="o">-</span> \
+           <span class="p">(</span><span class="n">cnt_l</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:]</span> <span class="o">/</span> <span class="n">cnt</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_impurity_func</span><span class="p">(</span><span class="n">f_l</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:])</span> <span class="o">-</span> \
+           <span class="p">(</span><span class="n">cnt_r</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:]</span> <span class="o">/</span> <span class="n">cnt</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_impurity_func</span><span class="p">(</span><span class="n">f_r</span><span class="p">[</span><span class="n">mask_gr_EPSILON</span><span class="p">,:])</span>
+        <span class="n">gains</span><span class="p">[</span><span class="n">mask_not_gr_EPSILON</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
 
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">imps</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">gains</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">imps</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">imps</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">gains</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">gains</span><span class="p">)]</span>
     
     <span class="k">def</span> <span class="nf">_misclf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -14548,7 +14548,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[316]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[142]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_clf</span> <span class="o">=</span> <span class="n">MyDecisionTreeClassifier</span><span class="p">(</span><span class="n">min_samples_split</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -14563,7 +14563,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[317]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[143]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">wine</span> <span class="o">=</span> <span class="n">load_wine</span><span class="p">()</span>
@@ -14579,7 +14579,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[144]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -14598,7 +14598,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[144]:</div>
 
 
 
@@ -14731,7 +14731,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[318]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[145]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
@@ -14751,7 +14751,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[318]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[145]:</div>
 
 
 
@@ -14769,7 +14769,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[319]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[146]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;clf accuracy_score = </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_pred</span><span class="o">=</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">),</span> <span class="n">y_true</span><span class="o">=</span><span class="n">y_test</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -14813,7 +14813,7 @@ my_clf accuracy_score = 1.0
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[147]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">time</span> clf.fit(X_train, y_train)
@@ -14844,7 +14844,7 @@ my_clf accuracy_score = 1.0
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[147]:</div>
 
 
 
@@ -14862,7 +14862,7 @@ my_clf accuracy_score = 1.0
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[49]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[156]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">time</span> my_clf.fit(X_train, y_train)
@@ -14885,7 +14885,7 @@ my_clf accuracy_score = 1.0
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Wall time: 37 ms
+<pre>Wall time: 34 ms
 </pre>
 </div>
 </div>
